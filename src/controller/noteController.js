@@ -20,9 +20,11 @@ const addNote = async (req, res) => {
 const getNote = async (req, res) => {
   try {
     const notes = await NoteModel.findOne({ user: req.user._id });
-    const data = notes.notes;
-    // data.map((e) => console.log(e.isImportant));
-    res.status(200).json(notes);
+    if (!notes) {
+      res.status(404).json({ error: "No Notes Created Yet" });
+    } else {
+      res.status(200).json(notes.notes);
+    }
   } catch (e) {
     console.log(e);
     res.status(400).json({ error: "An error occured" });

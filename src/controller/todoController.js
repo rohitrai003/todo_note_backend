@@ -21,39 +21,18 @@ const addTodo = async (req, res) => {
 // Get all todos for the authenticated user
 const getTodo = async (req, res) => {
   try {
-    const todos = await Todo.find({ user: req.user._id });
-    if (todos.length == 0) {
-      res.json({ error: "No Todo List" });
+    const userId = req.user.id;
+    const todos = await Todo.findOne({ user: userId });
+    if (!todos) {
+      return res.status(404).json({ message: "No todos found for this user." });
     } else {
-      res.status(200).json(todos);
+      res.status(200).json(todos.todo);
     }
   } catch (err) {
     console.error(err);
     res.status(400).json({ error: "Error fetching todos" });
   }
 };
-
-// Update a todo
-// const updateTodo = async (req, res) => {
-//   const { title, subtitle, completed } = req.body;
-
-//   try {
-//     const todo = await Todo.findOneAndUpdate(
-//       { _id: req.params.id, user: req.user._id },
-//       { title, subtitle, completed },
-//       { new: true }
-//     );
-
-//     if (!todo) {
-//       return res.status(404).json({ error: "Todo not found" });
-//     }
-
-//     res.status(200).json(todo);
-//   } catch (err) {
-//     console.error(err);
-//     res.status(400).json({ error: "Error updating todo" });
-//   }
-// };
 
 const updateTodo = async (req, res) => {
   const { title, isImportant, isCompleted } = req.body;
