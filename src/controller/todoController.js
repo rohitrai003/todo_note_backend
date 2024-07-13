@@ -24,7 +24,9 @@ const getTodo = async (req, res) => {
     const userId = req.user.id;
     const todos = await Todo.findOne({ user: userId });
     if (!todos) {
-      return res.status(404).json({ message: "No todos found for this user." });
+      return res
+        .status(404)
+        .json({ message: "No todos found for this user. You can add now" });
     } else {
       res.status(200).json(todos.todo);
     }
@@ -106,7 +108,7 @@ const isCompletedToggle = async (req, res) => {
 
     await todo.save();
 
-    res.status(200).json({ message: "Todo updated", todo: todoItem });
+    res.status(200).json({"message": "Changed Successfully", "todo" : todoItem});
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Server error" });
