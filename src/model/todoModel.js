@@ -1,5 +1,9 @@
 const mongoose = require("mongoose");
 
+let today = new Date();
+let tomorrow = new Date(today);
+tomorrow.setDate(today.getDate() + 1);
+
 const TodoSchema = new mongoose.Schema(
   {
     user: {
@@ -24,6 +28,10 @@ const TodoSchema = new mongoose.Schema(
         createdOn: {
           type: Date,
           default: Date.now,
+        },
+        deadline: {
+          type: Date,
+          default: tomorrow,
         },
       },
     ],
