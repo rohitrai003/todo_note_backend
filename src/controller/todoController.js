@@ -92,26 +92,24 @@ const deleteTodo = async (req, res) => {
     res.status(500).json({ message: "Server error" });
   }
 };
-
 const isCompletedToggle = async (req, res) => {
   const { userId, todoId } = req.params;
 
   try {
     const todo = await Todo.findOne({ user: userId, "todo._id": todoId });
-
     if (!todo) {
       return res.status(404).json({ message: "Todo not found" });
     }
-
     const todoItem = todo.todo.id(todoId);
+    if (!todoItem) {
+      return res.status(404).json({ message: "Todo item not found" });
+    }
     todoItem.isCompleted = !todoItem.isCompleted;
-
     await todo.save();
-
-    res.status(200).json({"message": "Changed Successfully", "todo" : todoItem});
+    res.status(200).json({ message: "Changed successfully", todo: todoItem });
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: "Server error" });
+    console.error("Error toggling todo:", error);
+    res.status(500).json({ message: "Server error", error: error.message });
   }
 };
 
