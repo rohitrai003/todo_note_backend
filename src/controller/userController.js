@@ -16,9 +16,7 @@ const signup = async (req, res) => {
     } else {
       await user.save();
 
-      const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET, {
-        expiresIn: "1h",
-      });
+      const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET);
 
       res.status(201).json({ token });
     }
@@ -39,9 +37,7 @@ const signin = async (req, res) => {
       return res.status(401).json({ error: "Invalid email or password" });
     }
 
-    const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET, {
-      expiresIn: "1h",
-    });
+    const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET);
 
     res.status(200).json({ token });
   } catch (err) {
