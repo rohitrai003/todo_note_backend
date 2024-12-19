@@ -15,7 +15,7 @@ const TodoSchema = new mongoose.Schema(
       {
         title: {
           type: String,
-          required: true,
+          required: false,
         },
         isImportant: {
           type: Boolean,
