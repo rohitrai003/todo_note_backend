@@ -44,13 +44,13 @@ const updateNote = async (req, res) => {
       { new: true }
     );
     if (!notes) {
-      return res.status(404).json({ error: "Notes not found" });
+      return res.status(404).json({  message: "Notes not found" });
     }
 
-    res.status(200).json(notes);
+    return res.status(200).json({message: "Notes updated"});
   } catch (err) {
     console.error(err);
-    res.status(400).json({ error: "Error updating notes" });
+    res.status(400).json({  message: "Error updating notes" });
   }
 };
 
@@ -62,13 +62,13 @@ const deleteNote = async (req, res) => {
       "notes._id": noteId,
     });
     if (!notes) {
-      return res.status(404).json({ error: "Notes not found" });
+      return res.status(404).json({  message: "Notes not found" });
     }
 
     res.status(200).json({ message: "Notes deleted" });
   } catch (err) {
     console.error(err);
-    res.status(400).json({ error: "Error deleting Notes" });
+    res.status(400).json({  message: "Error deleting Notes" });
   }
 };
 
