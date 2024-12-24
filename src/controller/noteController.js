@@ -21,13 +21,13 @@ const getNote = async (req, res) => {
   try {
     const notes = await NoteModel.findOne({ user: req.user._id });
     if (!notes) {
-      res.status(404).json({ error: "No Notes Created Yet" });
+      res.status(404).json({ message: "No Notes Created Yet", statusCode : 404});
     } else {
-      res.status(200).json(notes.notes);
+      res.status(200).json({message: notes.notes, statusCode : 200});
     }
   } catch (e) {
     console.log(e);
-    res.status(400).json({ error: "An error occured" });
+    res.status(400).json({ message: "An error occured" });
   }
 };
 
