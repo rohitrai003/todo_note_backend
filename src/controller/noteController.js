@@ -34,25 +34,30 @@ const getNote = async (req, res) => {
 const updateNote = async (req, res) => {
   const { title, subtitle } = req.body;
   const { userId, noteId } = req.params;
+
   try {
     const notes = await NoteModel.findOneAndUpdate(
       { user: userId, "notes._id": noteId },
       {
-        title,
-        subtitle,
+        $set: {
+          "notes.$.title": title, 
+          "notes.$.subtitle": subtitle,
+        },
       },
-      { new: true }
+      { new: true } 
     );
+
     if (!notes) {
-      return res.status(404).json({  message: "Notes not found" });
+      return res.status(404).json({ message: "Notes not found" });
     }
 
-    return res.status(200).json({message: "Notes updated"});
+    return res.status(200).json({ message: "Notes updated", notes });
   } catch (err) {
     console.error(err);
-    res.status(400).json({  message: "Error updating notes" });
+    res.status(400).json({ message: "Error updating notes" });
   }
 };
+
 
 const deleteNote = async (req, res) => {
   const { userId, noteId } = req.params;
